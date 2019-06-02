@@ -2,10 +2,12 @@ import os
 from flask import Flask, request, current_app
 from flask_login import LoginManager
 from flask_moment import Moment
+from flask_bootstrap import Bootstrap
 from config import Config
 
 
 db = SQLAlchemy()
+bootstrap = Bootstrap()
 login = LoginManager()
 login.login_view = 'auth.login'
 login.login_message = 'Please log in to access this page.'
@@ -28,6 +30,9 @@ def create_app(config_class=Config):
 
     from app.main import bp as main_bp
     app.register_blueprint(main_bp)
+
+    from app.project import bp as project_bp
+    app.register_blueprint(project_bp)
 
     return app
 
