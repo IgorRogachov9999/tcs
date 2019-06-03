@@ -31,6 +31,11 @@ class User():
 
 
     @staticmethod
+    def get_all():
+        pass
+
+
+    @staticmethod
     def get_user_by_username(username):
         pass
     
@@ -44,6 +49,36 @@ class User():
         digest = md5(self.email.lower().encode('utf-8')).hexdigest()
         return 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(
             digest, size)
+
+
+class Project():
+    def __init__(self, name, creator, description):
+        self.name = name
+        self.creator = creator
+        self.description = description
+        self.begin = time()
+
+
+    def save(self):
+        pass
+
+
+    @staticmethod
+    def get_all():
+        pass
+    
+
+    @staticmethod
+    def get_project_by_name(self, name):
+        pass
+
+
+    @staticmethod
+    def get_projects_created_by_username(username):
+        pass
+
+class Task():
+    pass
 
 
 class Model():

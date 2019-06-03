@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+    {% for project in projects %}
+        <br>
+        {% include "parts/_project.html" el %}
+    {% endfor %}
+{% endblock %}

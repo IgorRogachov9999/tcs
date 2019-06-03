@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+    <div class="row">
+        <div class="col-md-4">
+            {{ wtf.quick_form(form) }}
+        </div>
+    </div>
+
+    {% for el in data %}
+        <br>
+        {% if is_users %}
+            {% include "parts/_user.html" el %}
+        {% else %}
+            {% include "parts/_project.html" el %}
+        {% endif %}
+    {% endfor %}
+    
+{% endblock %}

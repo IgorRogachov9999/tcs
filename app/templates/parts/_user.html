@@ -1,0 +1,15 @@
+<table>
+        <tr>
+            <td width="70px">
+                <a href="{{ url_for('auth.profile', username=el.username) }}">
+                    <img src="{{ el.avatar(70) }}" />
+                </a>
+            </td>
+            <td>
+                <h1> &nbsp
+                    <a href="{{ url_for('auth.profile', username=el.username) }}">
+                        {{ el.username }}
+                    </a></h1>
+            </td>
+        </tr>
+</table>
