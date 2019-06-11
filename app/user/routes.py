@@ -1,36 +1,46 @@
 from flask import render_template, redirect, url_for, flash, request
-from werkzeug.urls import url_parse
 from flask_login import current_user, login_required
 from app.user import bp
-from app.models import User
+from app.models import User, Project, Task
+from app.user.forms import EditProfileForm
+
 
 @bp.route('/user/<username>')
 @login_required
 def profle(username):
-    pass
+    user = User.get_user_by_username(username)
+    if user is None:
+        return redirect(url_for('error.not_found_error'))
+    return render_template('user/profile.html', user=user)
 
 
-@bp.route('/edit_profile', methods=['GET', 'POST'])
+@bp.route('/user/edit/profile', methods=['GET', 'POST'])
 @login_required
 def edit_profile():
-    pass
+    form = EditProfileForm()
+    if form.validate_on_submit():
+        user = User(username=form.username.data, email=form.email.data)
+        user.set_password(form.password.data)
+        user.save()
+        flash('Your changes have been saved!')
+        return redirect(url_for('user.edit_profile'))
+    return render_template('user/edit.html', title='Edit',
+                           form=form) 
 
 
 @bp.route('/user/<username>/projects')
 @login_required
 def user_projects(username):
-    pass
+    projects = Project.get_projects_with_username(username)
+    return render_template('user/projects.html', title=username+' projects',
+                            projects=projects)
 
 
 @bp.route('/user/<username>/tasks')
 @login_required
 def user_tasks(username):
-    pass
-
-
-@bp.route('/user/<username>/tasks/<projectname>')
-@login_required
-def user_project_tasks(username, projectname):
-    pass
+    tasks = Task.get_username_tasks(username)
+    return render_template('user/tasks.html', title=username+' tastks',
+                            tasks=tasks)
 
 

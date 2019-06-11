@@ -15,6 +15,7 @@ class User():
     def __init__(self, username, email):
         self.username = username
         self.email = email
+        self.password = ""
         self.last_seen = time()
 
     
@@ -53,6 +54,7 @@ class User():
 
 class Project():
     def __init__(self, name, creator, description):
+        self.id = 0
         self.name = name
         self.creator = creator
         self.description = description
@@ -64,12 +66,22 @@ class Project():
 
 
     @staticmethod
+    def get_projects_where_username_is_manager(username):
+        pass
+
+
+    @staticmethod
     def get_all():
         pass
     
 
     @staticmethod
-    def get_project_by_name(self, name):
+    def get_project_by_name(name):
+        pass
+
+
+    @staticmethod
+    def get_projects_with_username(username):
         pass
 
 
@@ -77,8 +89,24 @@ class Project():
     def get_projects_created_by_username(username):
         pass
 
+
 class Task():
-    pass
+    def __init__(self):
+        pass
+    
+
+    def save(self):
+        pass
+
+
+    @staticmethod
+    def get_task_by_id(id):
+        pass
+
+
+    @staticmethod
+    def get_username_tasks(username):
+        pass
 
 
 class Model():

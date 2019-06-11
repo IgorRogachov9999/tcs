@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block app_content %}
+    {% for project in projects %}
+        <br>
+            {% include "user/_project.html" project %}
+    {% endfor %}
+    
+{% endblock %}

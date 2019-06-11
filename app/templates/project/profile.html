@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+    <table class="table table-hover">
+        <tr>
+            <td width="256px"><img src="{{ user.avatar(256) }}"></td>
+            <td>
+                <h1>User: {{ user.username }}</h1>
+                {% if user.last_seen %}
+                <p>Last seen on: {{ moment(user.last_seen).format('LLL') }}</p>
+                {% endif %}
+                {% if user == current_user %}
+                    <a href="{{ url_for('user.edit_profile') }}">Edit Profile</a><br>
+                {% else %}
+                    
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+{% endblock %}
