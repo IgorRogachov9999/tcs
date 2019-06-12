@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block app_content %}
+    <p><h2>{{ project.name }}</h2></p> 
+    <p><strong>Created by {{ creator.username }}</strong>, from {{ moment(project.begin).format('LLL') }}</p>
+    <p>{{ project.description }}</p>
+    <a href="{{url_for('project.project_users', projectname=project.name)}}">Developers</a>
+    <a href="{{url_for('project.project_tasks', projectname=project.name)}}">Tasks</a>
+{% endblock %}

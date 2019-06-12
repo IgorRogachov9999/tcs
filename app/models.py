@@ -2,6 +2,7 @@ import psycopg2
 from hashlib import md5
 from time import time
 from flask import g
+from enum import Enum
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
@@ -13,6 +14,7 @@ def get_db():
 
 class User():
     def __init__(self, username, email):
+        self.id = 0
         self.username = username
         self.email = email
         self.password = ""
@@ -28,6 +30,10 @@ class User():
 
     
     def save(self):
+        pass
+
+
+    def update(self):
         pass
 
 
@@ -66,6 +72,11 @@ class Project():
 
 
     @staticmethod
+    def set_user_role(project_id, user_id, role):
+        pass
+
+
+    @staticmethod
     def get_projects_where_username_is_manager(username):
         pass
 
@@ -76,7 +87,17 @@ class Project():
     
 
     @staticmethod
+    def get_user_role(project_id, user_id):
+        pass
+
+
+    @staticmethod
     def get_project_by_name(name):
+        pass
+
+
+    @staticmethod
+    def get_project_users_and_rols(prjectname):
         pass
 
 
@@ -87,6 +108,11 @@ class Project():
 
     @staticmethod
     def get_projects_created_by_username(username):
+        pass
+
+    
+    @staticmethod
+    def get_creator(projectname):
         pass
 
 
@@ -107,6 +133,22 @@ class Task():
     @staticmethod
     def get_username_tasks(username):
         pass
+
+    
+    @staticmethod
+    def get_tasks_by_project_id(project_id):
+        pass
+
+
+class Role(Enum):
+    DEVELOPER = 1
+    MANAGER = 2
+    CREATOR = 3
+
+
+class Status(Enum):
+    IN_PROCESS = 1
+    DONE = 2
 
 
 class Model():

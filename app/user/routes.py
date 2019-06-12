@@ -21,7 +21,7 @@ def edit_profile():
     if form.validate_on_submit():
         user = User(username=form.username.data, email=form.email.data)
         user.set_password(form.password.data)
-        user.save()
+        user.update()
         flash('Your changes have been saved!')
         return redirect(url_for('user.edit_profile'))
     return render_template('user/edit.html', title='Edit',

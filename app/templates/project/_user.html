@@ -1,0 +1,17 @@
+<a href="{{ url_for('project.project_user', projectname=projectname, username=user_and_role.user.username) }}">
+    <table>
+        <tr>
+            <td width="70px">
+                    <img src="{{ user_and_role.user.avatar(70) }}" />
+            </td>
+            <td>
+                <h1> &nbsp
+                        {{ user_and_role.user.username }}
+                </h1>
+            </td>
+            <td>
+                {{ user_and_role.role.role }} 
+            </td>
+        </tr>
+    </table>
+</a>

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block app_content %}
+<table>
+        <tr>
+            <td>
+                <h1> &nbsp
+                    <a href="{{ url_for('project.task', task=task.id) }}">
+                        <p>Task: {{ task.id }}</p>
+                    </a>
+                        <p>Status: {{ task.status }}</p>
+                        <p>{{ task.description }}</p>
+                        <a href="{{ url_for('user.profile', username=task.user.username) }}">
+                                <p>Developer: {{task.user.username}}</p>
+                        </a>
+                        <p>Start: {{ moment(task.start).format('LLL') }}</p>
+                        <p>Deathline: {{ moment(task.deathline).format('LLL') }}</p>
+                </h1>
+            </td>
+        </tr>
+</table>
+{% endblock %}
