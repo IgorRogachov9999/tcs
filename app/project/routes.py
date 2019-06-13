@@ -2,8 +2,8 @@ from flask import render_template, redirect, url_for, flash, request
 from werkzeug.urls import url_parse
 from flask_login import current_user, login_required
 from app.project import bp
-from app.models import User, Project, Task, Role
-from app.project.forms import ManagerForm, AddTaskForm
+from app.models import User, Project, Task, Role, Status
+from app.project.forms import ManagerForm, AddTaskForm, SetTaskDoneForm
 
 
 @bp.route('/project/<projectname>')
@@ -67,7 +67,12 @@ def task(task):
     current_task = Task.get_task_by_id(task)
     if current_task is None:
         return redirect(url_for('error.not_found_error'))
-    return render_template("project/task.html", task=current_task)
+    form = SetTaskDoneForm()
+    if form.validate_on_submit():
+        current_user.status = Status.DONE
+        current_task.update()
+    return render_template("project/task.html", task=current_task
+                            form=form)
 
 
 @bp.route('/task/add/<projectname>', methods=['GET', 'POST'])

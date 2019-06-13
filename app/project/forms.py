@@ -18,4 +18,7 @@ class AddTaskForm(FlaskForm):
     user = SelectField('Developer', choices=[])
     submit = SubmitField('Add')
 
+class SetTaskDoneForm(FlaskForm):
+    submit = SubmitField('Done')
+
     

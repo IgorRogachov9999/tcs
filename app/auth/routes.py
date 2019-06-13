@@ -4,6 +4,7 @@ from flask_login import login_user, logout_user, current_user
 from app.auth import bp
 from app.auth.forms import LoginForm, RegistrationForm
 from app.models import User
+from datetime import time
 
 
 @bp.route('/login', methods=['GET', 'POST'])
@@ -24,6 +25,8 @@ def login():
 
 @bp.route('/logout')
 def logout():
+    current_user.last_seen = time()
+    current_user.update()
     logout_user()
     return redirect(url_for('auth.login'))
 
