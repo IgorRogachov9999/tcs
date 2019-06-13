@@ -13,6 +13,7 @@
                 <a href="{{ url_for('user.user_tasks') }}">User Tasks</a><br>
                 {% if user == current_user %}
                 <a href="{{ url_for('user.edit_profile') }}">Edit Profile</a><br>
+                <a href="{{ url_for('user.create_project') }}">Create Project</a><br>
                 {% else %}
                 <a href="{{ url_for('user.add_to_project') }}">Add To Project</a><br>
                 {% endif %}

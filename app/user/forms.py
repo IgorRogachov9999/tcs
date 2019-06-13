@@ -3,7 +3,7 @@ from flask_login import current_user
 from wtforms import BooleanField, SubmitField, SelectField, \
                     StringField, TextAreaField, PasswordField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
-from app.models import User
+from app.models import Project
 
 
 class EditProfileForm(FlaskForm):
@@ -33,3 +33,14 @@ class EditProfileForm(FlaskForm):
 class AddToProjectForm(FlaskForm):
     project = SelectField('Project', choices=[])
     submit = SubmitField('Add')
+
+
+class CreateProjectForm(FlaskForm):
+    name = StringField('Name', validators=[DataRequired()])
+    description = TextAreaField('Description', validators=[DataRequired()])
+    submit = SubmitField('Create')
+
+    def validate_name(self, name):
+        project = Project.get_project_by_name(name)
+        if user is not None:
+            raise ValidationError('Please use a different name.')

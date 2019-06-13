@@ -2,7 +2,8 @@ from flask import render_template, redirect, url_for, flash, request
 from flask_login import current_user, login_required
 from app.user import bp
 from app.models import User, Project, Task
-from app.user.forms import EditProfileForm, AddToProjectForm
+from app.user.forms import EditProfileForm, AddToProjectForm, \
+                           CreateProjectForm
 
 
 @bp.route('/user/<username>')
@@ -23,7 +24,7 @@ def edit_profile():
         user.set_password(form.password.data)
         user.update()
         flash('Your changes have been saved!')
-        return redirect(url_for('user.edit_profile'))
+        return redirect(url_for('user.edit_profile', user=user))
     return render_template('user/edit.html', title='Edit',
                            form=form) 
 
@@ -60,6 +61,18 @@ def add_to_project(username, projectname):
                                 for project in user_projects]
     if form.validate_on_submit():
         Project.add_user_to_project(user.id, project.id)
-        return redirect(url_for('user.profile', username=username))
+        return redirect(url_for('user.profile', user=user))
     return render_template('user/add_to_project.html', title='Edit',
                            form=form) 
+
+
+@bp.route('/user/project/create', methods=['GET', 'POST'])
+@login_required
+def create_project():
+    form = CreateProjectForm()
+    if form.validate_on_submit():
+        project = Project(form.name.data,
+                          form.description.data)
+        project.save()
+        return redirect(url_for("user.profile", user=user))
+    return render_template("user/create_project.html", form=form)

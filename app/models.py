@@ -71,10 +71,9 @@ def load_user(id):
 
 
 class Project():
-    def __init__(self, name, creator, description):
+    def __init__(self, name, description):
         self.id = 0
         self.name = name
-        self.creator = creator
         self.description = description
         self.begin = time()
 
