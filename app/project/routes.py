@@ -42,7 +42,7 @@ def project_user(projectname, username):
     if user is None:
         return redirect(url_for('error.not_found_error'))
     role = Project.get_user_role(project.id, user.id)
-    elif user.id == current_user.id or role == Role.CREATOR:
+    if user.id == current_user.id or role == Role.CREATOR:
         return redirect(url_for("project_users", projectname))
     form = ManagerForm()
     if form.validate_on_submit():
@@ -66,7 +66,7 @@ def project_tasks(projectname):
 def task(task):
     current_task = Task.get_task_by_id(task)
     if current_task is None:
-        retreturn redirect(url_for('error.not_found_error'))
+        return redirect(url_for('error.not_found_error'))
     return render_template("project/task.html", task=current_task)
 
 
@@ -79,8 +79,9 @@ def add_task(projectname):
     role = Project.get_user_role(project.id, current_user.id)
     if role is None or role == Role.DEVELOPER:
         return redirect(url_for("main.index"))
-    users = Project.get_project_users(project.id)
-    form = AddTaskForm(project_user=users)
+    form = AddTaskForm()
+    project_users = Project.get_project_users(project.id)
+    form.user.choices = [(user.id, user.username) for user in project_users]
     if form.validate_on_submit():
         task = Task(form.description.data,
                     form.user.data,

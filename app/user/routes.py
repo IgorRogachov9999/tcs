@@ -53,9 +53,11 @@ def add_to_project(username, projectname):
     project = Project.get_project_by_name(projectname)
     if project is None:
         return redirect(url_for('error.not_found_error'))
-    projects = Project.get_projects_where_username_is_manager(
+    user_projects = Project.get_projects_where_username_is_manager(
                     current_user.username)
-    form = AddToProjectForm(projects)
+    form = AddToProjectForm()
+    form.project.choices = [(project.id, project.name) \
+                                for project in user_projects]
     if form.validate_on_submit():
         Project.add_user_to_project(user.id, project.id)
         return redirect(url_for('user.profile', username=username))

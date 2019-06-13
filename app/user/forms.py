@@ -1,16 +1,14 @@
 from flask_wtf import FlaskForm
 from flask_login import current_user
-from wtforms import BooleanField, SubmitField, SelectField
+from wtforms import BooleanField, SubmitField, SelectField, \
                     StringField, TextAreaField, PasswordField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 from app.models import User
 
 
 class EditProfileForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired()], 
-                            default=current_user.username)
-    email = StringField('Email', validators=[DataRequired(), Email()],
-                        default=current_user.email)
+    username = StringField('Username', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
     password2 = PasswordField(
         'Repeat Password', validators=[DataRequired(),
@@ -33,9 +31,5 @@ class EditProfileForm(FlaskForm):
 
 
 class AddToProjectForm(FlaskForm):
-    project = SelectField('Project', choices=self.projects)
+    project = SelectField('Project', choices=[])
     submit = SubmitField('Add')
-
-    def __init__(self, user_projects):
-        self.projects = [(project.id, project.name) \
-                                for project in user_projects]

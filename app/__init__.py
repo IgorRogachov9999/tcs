@@ -6,7 +6,6 @@ from flask_bootstrap import Bootstrap
 from config import Config
 
 
-db = SQLAlchemy()
 bootstrap = Bootstrap()
 login = LoginManager()
 login.login_view = 'auth.login'
@@ -18,12 +17,12 @@ def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
 
-    db.init_app(app)
     login.init_app(app)
+    bootstrap.init_app(app)
     moment.init_app(app)
 
-    from app.errors import bp as errors_bp
-    app.register_blueprint(errors_bp)
+    from app.error import bp as error_bp
+    app.register_blueprint(error_bp)
 
     from app.auth import bp as auth_bp
     app.register_blueprint(auth_bp)
@@ -33,6 +32,9 @@ def create_app(config_class=Config):
 
     from app.project import bp as project_bp
     app.register_blueprint(project_bp)
+
+    from app.user import bp as user_bp
+    app.register_blueprint(user_bp)
 
     return app
 

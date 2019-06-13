@@ -3,6 +3,8 @@ from hashlib import md5
 from time import time
 from flask import g
 from enum import Enum
+from app import login
+from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
@@ -12,7 +14,7 @@ def get_db():
     return g.db
 
 
-class User():
+class User(UserMixin):
     def __init__(self, username, email):
         self.id = 0
         self.username = username
@@ -38,6 +40,11 @@ class User():
 
 
     @staticmethod
+    def get_user_by_id(id):
+        pass
+
+
+    @staticmethod
     def get_all():
         pass
 
@@ -56,6 +63,11 @@ class User():
         digest = md5(self.email.lower().encode('utf-8')).hexdigest()
         return 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(
             digest, size)
+
+
+@login.user_loader
+def load_user(id):
+    return User.get_user_by_id(id)
 
 
 class Project():

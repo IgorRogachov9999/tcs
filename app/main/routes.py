@@ -9,8 +9,7 @@ from app.main.forms import SearchForm
 @bp.route('/index')
 @login_required
 def index():
-    projects = 
-        Project.get_projects_created_by_username(current_user.username)
+    projects = Project.get_projects_created_by_username(current_user.username)
     
     return render_template("main/index.html", projects=projects)
 
@@ -23,8 +22,7 @@ def search_user():
     if form.validate_on_submit():
         username = form.name.data
 
-    users = User.get_all(form.name.data) if username == '' \ 
-                else User.get_user_by_username(username)
+    users = User.get_all(form.name.data) if username == '' else User.get_user_by_username(username)
     
     return render_template("main/search.html", data=users, 
                             is_users=True, form=form)
@@ -38,8 +36,7 @@ def search_project():
     if form.validate_on_submit():
         projectname = form.name.data
 
-    projects = Project.get_all() if projectname == '' \ 
-        else Project.get_project_by_name(projectname)
+    projects = Project.get_all() if projectname == '' else Project.get_project_by_name(projectname)
     
     return render_template("main/search.html", data=projects, 
                             is_users=False, form=form)
