@@ -72,7 +72,17 @@ class Project():
 
 
     @staticmethod
+    def get_project_users(project_id):
+        pass
+
+
+    @staticmethod
     def set_user_role(project_id, user_id, role):
+        pass
+
+    
+    @staticmethod
+    def add_user_to_project(user_id, project_id):
         pass
 
 
@@ -93,6 +103,11 @@ class Project():
 
     @staticmethod
     def get_project_by_name(name):
+        pass
+
+    
+    @staticmethod
+    def get_project_by_id(project_id):
         pass
 
 
@@ -117,8 +132,13 @@ class Project():
 
 
 class Task():
-    def __init__(self):
-        pass
+    def __init__(self, description, user, project, deathline):
+        self.description = description
+        self.user = user
+        self.project = project
+        self.status = Status.IN_PROCESS
+        self.deathline = deathline
+        self.start = time()
     
 
     def save(self):

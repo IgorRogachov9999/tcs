@@ -3,7 +3,7 @@ from werkzeug.urls import url_parse
 from flask_login import current_user, login_required
 from app.project import bp
 from app.models import User, Project, Task, Role
-from app.project.forms import ManagerForm
+from app.project.forms import ManagerForm, AddTaskForm
 
 
 @bp.route('/project/<projectname>')
@@ -69,6 +69,27 @@ def task(task):
         retreturn redirect(url_for('error.not_found_error'))
     return render_template("project/task.html", task=current_task)
 
+
+@bp.route('/task/add/<projectname>', methods=['GET', 'POST'])
+@login_required
+def add_task(projectname):
+    project = Project.get_project_by_name(projectname)
+    if project is None:
+        return redirect(url_for('error.not_found_error'))
+    role = Project.get_user_role(project.id, current_user.id)
+    if role is None or role == Role.DEVELOPER:
+        return redirect(url_for("main.index"))
+    users = Project.get_project_users(project.id)
+    form = AddTaskForm(project_user=users)
+    if form.validate_on_submit():
+        task = Task(form.description.data,
+                    form.user.data,
+                    project.id,
+                    form.user.data,
+                    form.deathline.data)
+        task.save()
+        return redirect(url_for("main.index"))
+    return render_template("project/add_task.html", form=form)
 
 
 

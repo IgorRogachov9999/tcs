@@ -2,7 +2,7 @@ from flask import render_template, redirect, url_for, flash, request
 from flask_login import current_user, login_required
 from app.user import bp
 from app.models import User, Project, Task
-from app.user.forms import EditProfileForm
+from app.user.forms import EditProfileForm, AddToProjectForm
 
 
 @bp.route('/user/<username>')
@@ -44,3 +44,20 @@ def user_tasks(username):
                             tasks=tasks)
 
 
+@bp.route('/user/<username>/add/<projectname>', methods=['GET', 'POST'])
+@login_required
+def add_to_project(username, projectname):
+    user = User.get_user_by_username(username)
+    if user is None:
+        return redirect(url_for('error.not_found_error'))
+    project = Project.get_project_by_name(projectname)
+    if project is None:
+        return redirect(url_for('error.not_found_error'))
+    projects = Project.get_projects_where_username_is_manager(
+                    current_user.username)
+    form = AddToProjectForm(projects)
+    if form.validate_on_submit():
+        Project.add_user_to_project(user.id, project.id)
+        return redirect(url_for('user.profile', username=username))
+    return render_template('user/add_to_project.html', title='Edit',
+                           form=form) 

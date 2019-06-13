@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
 from flask_login import current_user
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms import BooleanField, SubmitField, SelectField
+                    StringField, TextAreaField, PasswordField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 from app.models import User
 
@@ -29,3 +30,12 @@ class EditProfileForm(FlaskForm):
             user = User.get_user_by_email()
             if user is not None:
                 raise ValidationError('Please use a different email address.')
+
+
+class AddToProjectForm(FlaskForm):
+    project = SelectField('Project', choices=self.projects)
+    submit = SubmitField('Add')
+
+    def __init__(self, user_projects):
+        self.projects = [(project.id, project.name) \
+                                for project in user_projects]
